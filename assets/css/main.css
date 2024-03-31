@@ -1,0 +1,174 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Manrope", sans-serif;
+  list-style: none;
+  text-decoration: none;
+}
+
+.filter-items {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+}
+
+.accordion-item {
+  margin-bottom: 5px;
+  overflow: hidden;
+  transition: all 0.5s ease-out;
+}
+
+.accordion-item .icon {
+  transition: all 0.5s ease;
+  width: 16px;
+  height: 16px;
+}
+
+.accordion-header {
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.2;
+  letter-spacing: 1%;
+}
+.accordion-header__left {
+  display: flex;
+  gap: 10px;
+}
+.accordion-header__left input {
+  display: none;
+}
+.accordion-header__left label {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: 1px solid #d9d9d9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.accordion-header__left input:checked ~ label {
+  background-color: #f52053;
+  border-color: #f52053;
+}
+.accordion-content {
+  transition: all 0.5s ease;
+  max-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-left: 24px;
+}
+
+.accordion-item.active .icon {
+  rotate: -90deg;
+}
+
+.accordion-item.active .accordion-content {
+  max-height: 1000px;
+  padding: 19px 0 19px 24px;
+}
+.accordion-item-check {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.accordion-item-check input {
+  display: none;
+}
+.accordion-item-check .accordion-item-check__label {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: 1px solid #d9d9d9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.accordion-item-check input:checked + .accordion-item-check__label {
+  background-color: #f52053;
+  border-color: #f52053;
+}
+
+main {
+  display: flex !important;
+  height: 100vh;
+  background: #f9f9f9;
+}
+.select-tree {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 25px;
+  padding: 32px 20px 32px 46px;
+  height: fit-content;
+}
+.select-tree__item {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  padding: 10px 10px 10px 12px;
+  background: #fff;
+  border: 1px solid #d8dde5;
+  border-radius: 24px;
+  height: fit-content;
+  gap: 4px;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.4;
+  letter-spacing: 1%;
+}
+.select-tree__item button {
+    display: flex;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+.filter {
+  width: 350px;
+  flex-shrink: 0;
+  height: 100%;
+  overflow-y: auto;
+  background: #ffffff;
+  padding: 10px 26px 10px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+.filter-search {
+  width: 100%;
+  position: relative;
+}
+.filter-search input {
+  width: 100%;
+  padding: 12px 60px 12px 16px;
+  border: 1px solid #d9d9d9;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.2;
+  color: #797c81;
+  border-radius: 10px;
+}
+.filter-search .search-icon {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+}
+
+.filter-items {
+  padding-left: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
