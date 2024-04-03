@@ -6,7 +6,7 @@
                 <search-icon class="search-icon" />
             </div>
             <div class="filter-items">
-                <div class="accordion-item" :class="activeIndex === index ? 'active' : ''"
+                <div class="accordion-item" :class="activeIndex.includes(`check-${index}`) ? 'active' : ''"
                     v-for="(item, index) in array" :key="index">
                     <div class="accordion-header" @click="toggleSection(index)">
                         <div class="accordion-header__left">
@@ -19,7 +19,7 @@
                         </div>
                         <arrow-icon class="icon" />
                     </div>
-                    <div class="accordion-content">
+                    <div class="accordion-content" v-show="!selectedInputs.includes(`check-${index}`)">
                         <div class="accordion-item-check" v-for="(check, i) in item?.list" :key="check">
                             <input class="checkbox-item" :data-check-index="`check-${index}`"
                                 :id="`check-${index}-${i}`" type="checkbox"
@@ -48,15 +48,21 @@ import CloseIcon from "~/components/icons/CloseIcon.vue";
 import SearchIcon from "~/components/icons/SearchIcon.vue";
 
 function search(e) {
-    const result = copyArray.filter(el => {
-        if (el.name.toLowerCase().includes(e.target.value.toLowerCase())) {
-            if (el != undefined) {
-                return el
-            }
-        }
-    })
-    array.value = result
+    let resultArray = [];
+    if (e.target.value.length) {
+        resultArray = copyArray.map(el => {
+            const filteredList = el.list.filter(item =>
+                item.toLowerCase().includes(e.target.value.toLowerCase())
+            );
+            return { ...el, list: filteredList };
+        });
+    } else {
+        resultArray = [...copyArray];
+    }
+    array.value = resultArray;
 }
+
+let selectedInputs = ref([])
 
 const selectedTrees = ref([]);
 
@@ -127,10 +133,14 @@ const array = ref([
     },
 ])
 let copyArray = JSON.parse(JSON.stringify(array.value))
-let activeIndex = ref(null);
+let activeIndex = ref([]);
 
 const toggleSection = (index) => {
-    activeIndex.value = activeIndex.value === index ? null : index;
+    if (activeIndex.value.includes(`check-${index}`)) {
+        activeIndex.value = activeIndex.value.filter((elem) => elem !== `check-${index}`);
+    } else {
+        activeIndex.value.push(`check-${index}`)
+    }
 };
 
 const selectCheck = (accordionIndex, checkIndex, check, e) => {
@@ -183,6 +193,9 @@ function removeTree(item) {
                 }
             })
             el.checked = allChecked;
+            selectedInputs.value = selectedInputs.value.filter((elem) => elem !== `check-${item.accordionIndex}`);
+        } else {
+            selectedInputs.value.push(`check-${item.accordionIndex}`)
         }
     })
 }
@@ -210,8 +223,8 @@ function checkAll(e, i) {
                 selectedTrees.value.push(item);
             }
         })
+        selectedInputs.value.push(`check-${i}`)
     } else {
-
         array.value[i]?.list?.forEach((el, index) => {
             let item = {
                 name: el,
@@ -220,6 +233,7 @@ function checkAll(e, i) {
             }
             selectedTrees.value = selectedTrees.value.filter((elem) => JSON.stringify(elem) !== JSON.stringify(item));
         })
+        selectedInputs.value = selectedInputs.value.filter((elem) => elem !== `check-${i}`);
     }
 }
 
