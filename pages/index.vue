@@ -181,7 +181,11 @@ function removeTree(item) {
     if (check) {
         check.checked = false;
     }
-
+    if (selectedInputs.value.includes(`check-${item.accordionIndex}`)) {
+        selectedInputs.value = selectedInputs.value.filter((elem) => elem !== `check-${item.accordionIndex}`);
+    } else {
+        selectedInputs.value.push(`check-${item.accordionIndex}`)
+    }
     document.querySelectorAll('.accordion-header-checkbox').forEach((el) => {
         if (el.id == `check-${item.accordionIndex}`) {
             let allChecked = true;
@@ -193,9 +197,8 @@ function removeTree(item) {
                 }
             })
             el.checked = allChecked;
-            selectedInputs.value = selectedInputs.value.filter((elem) => elem !== `check-${item.accordionIndex}`);
+
         } else {
-            selectedInputs.value.push(`check-${item.accordionIndex}`)
         }
     })
 }
